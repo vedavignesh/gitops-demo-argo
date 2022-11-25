@@ -18,7 +18,7 @@ pipeline {
         stage('Checkout SCM'){
             steps {
                 git credentialsId: 'github', 
-                url: 'https://github.com/kunchalavikram1427/gitops-demo.git',
+                url: 'https://github.com/vedavignesh/gitops-demo-argo.git',
                 branch: 'dev'
             }
         }
@@ -56,11 +56,12 @@ pipeline {
             steps {
                 script{
                     sh """
-                    git config --global user.name "vikram"
-                    git config --global user.email "vikram@gmail.com"
+                    git config --global user.name "vedavignesh"
+                    git config --global user.email "Vedavignesh@yahoo.com"
                     git add deployment.yml
                     git commit -m 'Updated the deployment file' """
                     withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                        sh "git push http://$user:$pass@github.com/kunchalavikram1427/gitops-demo.git dev"
                         sh "git push http://$user:$pass@github.com/kunchalavikram1427/gitops-demo.git dev"
                     }
                 }
